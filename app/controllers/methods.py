@@ -1,12 +1,10 @@
 import json
 
-def unjsonize (json_data, *args, **kwargs):
-	dict_object = json.loads(json_data, *args, **kwargs)
-	return dict_object
+def unjsonize(json_data, *args, **kwargs):
+	return json.loads(json_data, *args, **kwargs)
 
-def jsonize (dict_object, *args, **kwargs):
-	json_data = json.dumps(dict_object, *args, **kwargs)
-	return json_data
+def jsonize(dict_object, *args, **kwargs):
+	return json.dumps(dict_object, *args, **kwargs)
 
 def loadJson (path, *args, **kwargs):
 	with open(path, "r") as file:

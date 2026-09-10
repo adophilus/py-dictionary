@@ -12,11 +12,10 @@ class Word (db.Model):
 	def __str__ (self):
 		return self.WORD
 
-	def getDefinitions (self):
+	def getDefinitions(self):
 		definitions = []
 		for definition_id in unjsonize(self.DEFINITIONS):
-			definition = Definition.query.filter_by(ID = definition_id).first()
-			if (definition):
+			if definition := Definition.query.filter_by(ID=definition_id).first():
 				definitions.append(definition)
 		return definitions
 

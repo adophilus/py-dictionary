@@ -6,8 +6,7 @@ definitionsBlueprint = Blueprint("definitions", __name__)
 definitionsUrlPrefix = "/definitions"
 
 @definitionsBlueprint.route("/<word>")
-def getWordDefinitions (word):
-	word_record = models.Word(WORD = word)
-	if (word_record):
+def getWordDefinitions(word):
+	if word_record := models.Word(WORD=word):
 		return word_record.DEFINITIONS
 	return ""

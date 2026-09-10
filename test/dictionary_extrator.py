@@ -65,15 +65,15 @@ class DictionaryExtractor ():
 			self.__saveConfig()
 			self.conn.commit()
 
-	def parseDictionary (self, fileData, fileName):
+	def parseDictionary(self, fileData, fileName):
 		print("[+] Parsing dictionary data...")
 		dictionaryData = json.loads(fileData)
 		wordsToLoad = dictionaryData.keys()
 
-		if (self.config.get("last_dictionary_file") == fileName):
-			if (self.config.get("last_dictionary_file_word")):
-				wordsToLoad = list(dictionaryData.keys())[list(dictionaryData.keys()).index(self.config["last_dictionary_file_word"]):]
-		
+		if (self.config.get("last_dictionary_file") == fileName) and (
+		    self.config.get("last_dictionary_file_word")):
+			wordsToLoad = list(dictionaryData.keys())[list(dictionaryData.keys()).index(self.config["last_dictionary_file_word"]):]
+
 		for wordToLoad in wordsToLoad:
 			self.parseDictionaryWord(dictionaryData[wordToLoad])
 			self.config["last_dictionary_file_word"] = dictionaryData[wordToLoad]["word"]
@@ -176,16 +176,12 @@ def displayHelpMenu ():
 
 if __name__ == "__main__":
 	dictionaryFilesPath = ""
-	databaseFilePath = "database.db"
-
 	if (len(sys.argv) >= 2):
 		dictionaryFilesPath = sys.argv[1]
 		if (dictionaryFilesPath.lower() == "--help" or dictionaryFilesPath.lower() == "-h" or dictionaryFilesPath.lower() == "/h" or dictionaryFilesPath.lower() == "/help" or dictionaryFilesPath == "/?"):
 			displayHelpMenu()
 			exit()
-	if (len(sys.argv) >= 3):
-		databaseFilePath = sys.argv[2]
-
+	databaseFilePath = sys.argv[2] if (len(sys.argv) >= 3) else "database.db"
 	if (dictionaryFilesPath):
 		app = DictionaryExtractor(dictionaryFilesPath, databaseFilePath = databaseFilePath)
 		app.loadDictionary()
